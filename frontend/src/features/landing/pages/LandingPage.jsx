@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Heart, Trophy, CreditCard, ArrowRight, ShieldCheck, Ticket, LayoutDashboard } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Heart, Trophy, CreditCard, ArrowRight, ShieldCheck, Ticket, LayoutDashboard, Globe, Users, Sparkles } from 'lucide-react';
 import api from '../../../lib/axios';
 import { useAuthStore } from '../../../store/authStore';
 
@@ -17,25 +18,44 @@ const LandingPage = () => {
 
   const { isAuthenticated } = useAuthStore();
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="min-h-screen bg-neutral-950 text-white selection:bg-purple-500/30">
+    <div className="min-h-screen bg-neutral-950 text-white selection:bg-purple-500/30 overflow-x-hidden">
       {/* NavBar */}
       <nav className="fixed top-0 w-full border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-md z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Heart className="text-pink-500" size={28} />
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2"
+          >
+            <Heart className="text-pink-500 fill-pink-500/10" size={28} />
             <span className="text-2xl font-black tracking-tight">CharityRoll</span>
-          </div>
+          </motion.div>
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
-              <Link to="/dashboard" className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:scale-105 transition-all flex items-center gap-2">
+              <Link to="/dashboard" className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:scale-105 transition-all flex items-center gap-2 shadow-lg shadow-purple-500/20">
                 <LayoutDashboard size={18} />
                 Go to Dashboard
               </Link>
             ) : (
               <>
                 <Link to="/login" className="text-neutral-400 hover:text-white font-medium transition-colors">Log In</Link>
-                <Link to="/signup" className="px-5 py-2.5 bg-white text-black font-bold rounded-full hover:bg-neutral-200 transition-all">Get Started</Link>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link to="/signup" className="px-5 py-2.5 bg-white text-black font-bold rounded-full hover:bg-neutral-200 transition-all shadow-xl shadow-white/5">Get Started</Link>
+                </motion.div>
               </>
             )}
           </div>
@@ -43,89 +63,178 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden">
+      <section className="relative pt-40 pb-32 overflow-hidden">
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/20 blur-[120px] rounded-full point-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-sm font-semibold mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-            </span>
-            Next draw is mathematically guaranteed to payout
-          </div>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-tight">
-            Play Golf. <br />
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-7xl mx-auto px-6 relative z-10 text-center"
+        >
+          <motion.div 
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-sm font-semibold mb-8"
+          >
+            <Sparkles size={16} className="text-purple-400" />
+            Empowering over 50+ global NGOs through play
+          </motion.div>
+          
+          <motion.h1 
+            variants={itemVariants}
+            className="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] text-balance"
+          >
+            Winning is <span className="text-neutral-500italic">Giving.</span> <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500">
-              Fund Causes.
+              Fueling Change.
             </span>
-          </h1>
-          <p className="text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed text-balance">
-            The world's first decentralized charity lottery. Enter your weekend golf scores, compete on the global leaderboard, and win massive cash prizes—while 10% of every ticket goes directly to your chosen NGO.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/signup" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
-              Subscribe for $10/mo <ArrowRight size={20} />
-            </Link>
+          </motion.h1>
+          
+          <motion.p 
+            variants={itemVariants}
+            className="text-xl text-neutral-400 max-w-2xl mx-auto mb-12 leading-relaxed text-balance"
+          >
+            A new kind of philanthropy. We believe in the power of collective play. Compete for major rewards while 10% of every subscription transforms lives across the globe.
+          </motion.p>
+          
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/signup" className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold text-lg rounded-2xl transition-all flex items-center justify-center gap-3 shadow-2xl shadow-purple-500/40">
+                Join the Mission — $10/mo <ArrowRight size={22} />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Impact Stats */}
+      <section className="pb-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center border-y border-neutral-800 py-20 bg-neutral-900/20 backdrop-blur-sm rounded-[3rem]">
+            {[
+              { icon: Globe, label: "Global Payouts", value: "$420K+", desc: "Distributed to winners monthly" },
+              { icon: Heart, label: "Impact Created", value: "$50K+", desc: "Directly donated to vetted NGOs" },
+              { icon: Users, label: "Active Donors", value: "12,000+", desc: "Compete and give every weekend" }
+            ].map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6">
+                  <stat.icon className="text-purple-400" size={24} />
+                </div>
+                <div className="text-4xl font-black mb-2">{stat.value}</div>
+                <div className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-2">{stat.label}</div>
+                <div className="text-neutral-400 text-sm max-w-[200px]">{stat.desc}</div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Mechanics / How it Works */}
-      <section className="py-24 bg-neutral-900/50 border-y border-neutral-800">
+      <section className="py-32 bg-neutral-900/30">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black mb-4">How the Engine works</h2>
-            <p className="text-neutral-400 text-lg">Transparent mechanics. Cryptographic-level payouts.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <h2 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">The Altruism Engine</h2>
+              <p className="text-neutral-400 text-xl leading-relaxed">We've automated giving by integrating it with the competition you already love.</p>
+            </div>
+            <div className="flex items-center gap-2 text-neutral-500 font-bold mb-4 uppercase tracking-tighter">
+              <ShieldCheck className="text-green-500" size={20} /> Procedurally Transparent
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: CreditCard, color: 'text-blue-400', bg: 'bg-blue-500/10', title: '1. Fuel the Pool', desc: 'Securely subscribe for $10/month via Stripe. 90% goes into the mathematically locked Prize Pool, 10% instantly funnels to a Charity of your choice.' },
-              { icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10', title: '2. Post your Score', desc: 'Played 18 holes this weekend? Log your score (1-45 over par). The system automatically curates the algorithmic matching baseline.' },
-              { icon: Ticket, color: 'text-green-400', bg: 'bg-green-500/10', title: '3. The Match Engine', desc: 'On the 28th, an algorithmic draw matches scores. Match 5 gets 40% of the pool. If nobody matches 5, the jackpot rolls over to next month!' }
+              { icon: CreditCard, color: 'text-blue-400', bg: 'bg-blue-500/10', title: 'Empowerment', desc: 'Securely subscribe. 90% fuels the rewards, 10% instantly funnels to your chosen community project.' },
+              { icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10', title: 'Performance', desc: 'Post your weekend achievements. Our system curates your score against the global matching baseline.' },
+              { icon: Ticket, color: 'text-green-400', bg: 'bg-green-500/10', title: 'Transformation', desc: 'On the 28th, the engine calculates the match. Winners win big, but humanity wins every day.' }
             ].map((step, i) => (
-              <div key={i} className="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
-                <div className={`w-14 h-14 rounded-2xl ${step.bg} ${step.color} flex items-center justify-center mb-6`}>
-                   <step.icon size={28} />
+              <motion.div 
+                key={i}
+                whileHover={{ y: -10 }}
+                className="group bg-neutral-900/80 border border-neutral-800 p-10 rounded-[2.5rem] hover:border-purple-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10"
+              >
+                <div className={`w-16 h-16 rounded-3xl ${step.bg} ${step.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform`}>
+                   <step.icon size={32} />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-neutral-400 leading-relaxed">{step.desc}</p>
-              </div>
+                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
+                <p className="text-neutral-400 leading-relaxed text-lg">{step.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Charities Marquee */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-12">The NGOs We Power</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             {charities?.map(c => (
-               <div key={c.id} className="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl flex flex-col items-center justify-center gap-3 group hover:border-pink-500/30 transition-colors">
-                  <div className="w-12 h-12 bg-neutral-950 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ShieldCheck className="text-neutral-500 group-hover:text-pink-400" />
+      <section className="py-32 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black mb-6">Partners in Change</h2>
+            <p className="text-neutral-400 text-xl">The NGOs receiving your direct support.</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+             {charities?.map((c, i) => (
+               <motion.div 
+                 key={c.id}
+                 initial={{ opacity: 0, scale: 0.8 }}
+                 whileInView={{ opacity: 1, scale: 1 }}
+                 transition={{ delay: i * 0.05 }}
+                 viewport={{ once: true }}
+                 className="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl flex flex-col items-center justify-center gap-4 group hover:border-pink-500/30 hover:bg-neutral-800/50 transition-all cursor-default"
+               >
+                  <div className="w-14 h-14 bg-neutral-950 rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-transform shadow-inner">
+                    <ShieldCheck className="text-neutral-600 group-hover:text-pink-400" size={28} />
                   </div>
-                  <span className="font-bold text-center text-sm">{c.name}</span>
-               </div>
+                  <span className="font-extrabold text-center text-xs uppercase tracking-widest text-neutral-500 group-hover:text-white transition-colors">{c.name}</span>
+               </motion.div>
              ))}
           </div>
         </div>
       </section>
 
       {/* Footer CTA */}
-      <footer className="py-20 border-t border-neutral-800 text-center">
-         <h2 className="text-4xl font-black mb-6">Ready to swing for Charity?</h2>
-         {isAuthenticated ? (
-           <Link to="/dashboard" className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:scale-105 transition-transform inline-flex items-center gap-2">
-              <LayoutDashboard size={20} />
-              Open Dashboard
-           </Link>
-         ) : (
-           <Link to="/signup" className="px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-neutral-200 transition-all inline-block">
-              Create Free Account
-           </Link>
-         )}
+      <section className="py-40 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-black mb-10 tracking-tighter leading-tight"
+          >
+            Ready to change the world <br/> while you play?
+          </motion.h2>
+          
+          {isAuthenticated ? (
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/dashboard" className="px-12 py-6 bg-white text-black font-black text-xl rounded-3xl hover:bg-neutral-200 transition-all inline-flex items-center gap-3 shadow-2xl">
+                <LayoutDashboard size={24} />
+                Enter the Dashboard
+              </Link>
+            </motion.div>
+          ) : (
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/signup" className="px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xl rounded-3xl transition-all inline-block shadow-2xl shadow-purple-500/50">
+                Become a Founder Member
+              </Link>
+            </motion.div>
+          )}
+          
+          <p className="mt-8 text-neutral-500 font-bold uppercase tracking-[0.2em] text-sm">
+            Instant Signup • Secure via Stripe • 100% Transparent
+          </p>
+        </div>
+      </section>
+
+      <footer className="py-12 border-t border-neutral-900 text-center text-neutral-600 font-medium">
+        &copy; {new Date().getFullYear()} CharityRoll. All rights reserved. Built for Impact.
       </footer>
     </div>
   );

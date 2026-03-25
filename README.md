@@ -77,21 +77,32 @@ VITE_API_URL=http://localhost:5001
 
 ---
 
-## 🏃 Running the Project
+## 🐳 Docker Setup (Recommended)
 
-1. **Start the Backend Server:**
-   ```bash
-   cd backend
-   npm run dev
-   ```
-   *Server runs on http://localhost:5001*
+The easiest way to run the project is using Docker. Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 
-2. **Start the Frontend App:**
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-   *App runs on http://localhost:5173*
+### 1. Environment Setup
+Docker requires environment variables to connect to your database and Stripe.
+1.  Navigate to `backend/` and `frontend/`.
+2.  Copy `.env.example` to `.env` in both directories.
+3.  Fill in your actual keys (Database URL, Stripe Secret, etc.).
+
+### 2. Build and Run locally
+From the root directory:
+```bash
+docker compose up --build
+```
+*Port mapping: Frontend (5173), Backend (5001)*
+
+### 3. Pull from Docker Hub
+If you prefer to pull the pre-built images:
+```bash
+# Pull the latest image
+docker pull rajverma4/golf-charity-platform:latest
+
+# Run the project using Compose (it will pull images if not found)
+docker compose up
+```
 
 ---
 
@@ -101,3 +112,4 @@ VITE_API_URL=http://localhost:5001
 - **Transparent Drawing**: Algorithmic "Match Engine" runs on the 28th of every month.
 - **Charity Voting**: 10% of every ticket goes to an NGO selected by the user.
 - **Admin Dashboard**: Run draft draws, verify winners, and manage charities.
+- **Modern UI**: Emotion-driven design using `framer-motion` for fluid transitions.
