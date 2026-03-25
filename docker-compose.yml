@@ -1,6 +1,6 @@
 services:
   backend:
-    build: ./backend
+    image: rajverma4/charity-backend:latest
     ports:
       - "5001:5001"
     env_file:
@@ -8,10 +8,7 @@ services:
     restart: always
 
   frontend:
-    build:
-      context: ./frontend
-      args:
-        - VITE_API_URL=http://localhost:5001
+    image: rajverma4/charity-frontend:latest
     ports:
       - "5173:80"
     depends_on:

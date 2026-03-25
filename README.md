@@ -82,10 +82,19 @@ VITE_API_URL=http://localhost:5001
 The easiest way to run the project is using Docker. Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 
 ### 1. Environment Setup
-Docker requires environment variables to connect to your database and Stripe.
+Docker requires environment variables to connect to your database and Stripe. 
 1.  Navigate to `backend/` and `frontend/`.
 2.  Copy `.env.example` to `.env` in both directories.
-3.  Fill in your actual keys (Database URL, Stripe Secret, etc.).
+3.  **Required Backend Variables:**
+    - `PORT=5001`
+    - `DATABASE_URL=your_postgresql_url`
+    - `JWT_SECRET=your_jwt_secret`
+    - `CORS_ORIGIN=http://localhost:5173`
+    - `STRIPE_SECRET_KEY=sk_test_...`
+    - `STRIPE_WEBHOOK_SECRET=whsec_...`
+    - `NODE_ENV=development`
+4.  **Required Frontend Variables:**
+    - `VITE_API_URL=http://localhost:5001`
 
 ### 2. Build and Run locally
 From the root directory:
@@ -97,12 +106,38 @@ docker compose up --build
 ### 3. Pull from Docker Hub
 If you prefer to pull the pre-built images:
 ```bash
-# Pull the latest image
-docker pull rajverma4/golf-charity-platform:latest
+# Pull the Backend image
+docker pull rajverma4/charity-backend:latest
+
+# Pull the Frontend image
+docker pull rajverma4/charity-frontend:latest
 
 # Run the project using Compose (it will pull images if not found)
 docker compose up
 ```
+
+---
+
+## 🔐 Security & Environment Variables
+
+The Docker images **do not** contain your secret `.env` values. You must provide them at runtime using one of these methods:
+
+### Method 1: Docker Compose (Recommended)
+Place a `.env` file next to your `docker-compose.yml` file. Docker will automatically "inject" these values into the containers when they start.
+
+### Method 2: CLI Flags (Manual)
+If running a single container, you can pass variables directly in the terminal:
+```bash
+docker run -d \
+  --name charity-backend \
+  -p 5001:5001 \
+  -e DATABASE_URL="your_db_url_here" \
+  -e JWT_SECRET="your_secret_here" \
+  rajverma4/charity-backend:latest
+```
+
+### Method 3: Cloud Dashboards
+When deploying to **Render**, **Railway**, or **AWS**, use their web dashboard to add "Environment Variables" manually. These values will be securely passed to your containers on startup.
 
 ---
 
@@ -113,3 +148,4 @@ docker compose up
 - **Charity Voting**: 10% of every ticket goes to an NGO selected by the user.
 - **Admin Dashboard**: Run draft draws, verify winners, and manage charities.
 - **Modern UI**: Emotion-driven design using `framer-motion` for fluid transitions.
+- **Dockerized**: Easy deployment via Docker Compose with pre-built images on Docker Hub.
