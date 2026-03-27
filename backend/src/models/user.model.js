@@ -29,11 +29,11 @@ const updateUser = async (id, ObjectUpdates) => {
   const fields = Object.keys(ObjectUpdates);
   if (fields.length === 0) return null;
 
-  const setClause = fields.map((field, i) => `\${field} = $\${i + 2}`).join(', ');
+  const setClause = fields.map((field, i) => `${field} = $${i + 2}`).join(', ');
   const values = [id, ...Object.values(ObjectUpdates)];
 
   const { rows } = await pool.query(
-    `UPDATE users SET \${setClause} WHERE id = $1 RETURNING id, name, email, role, created_at`,
+    `UPDATE users SET ${setClause} WHERE id = $1 RETURNING id, name, email, role, created_at`,
     values
   );
   return rows[0];
