@@ -5,7 +5,7 @@ const LoginPage = () => {
     <div className="w-full flex-1 flex flex-col items-center justify-center p-4">
       <div className="mb-10 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
-          Welcome to <span className="text-blue-400">Charity</span><span className="text-purple-500">Lottery</span>
+          Welcome to <span className="text-blue-400">Golf</span> <span className="text-purple-500">Charity</span>
         </h1>
         <p className="text-neutral-400 max-w-lg mx-auto">
           Play to win, play to give. Join the most transparent and impactful lottery platform on the internet.

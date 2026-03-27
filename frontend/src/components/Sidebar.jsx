@@ -47,7 +47,7 @@ const Sidebar = () => {
     <div className="w-64 h-screen bg-neutral-900 border-r border-neutral-800 flex flex-col fixed left-0 top-0">
       <div className="p-6">
         <h1 className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-          CharityLottery
+          Golf Charity
         </h1>
       </div>
 

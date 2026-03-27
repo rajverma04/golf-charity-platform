@@ -7,7 +7,7 @@ const setTokenCookie = (res, token) => {
   res.cookie('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Send only over HTTPS in prod
-    sameSite: 'strict', // Prevent CSRF
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Support cross-site in prod
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days (matches JWT expiration)
   });
 };
@@ -33,6 +33,8 @@ const logout = asyncHandler(async (req, res) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 5 * 1000), // expire almost immediately
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   });
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 });

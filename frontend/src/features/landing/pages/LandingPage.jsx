@@ -42,7 +42,7 @@ const LandingPage = () => {
             className="flex items-center gap-2"
           >
             <Heart className="text-pink-500 fill-pink-500/10" size={28} />
-            <span className="text-2xl font-black tracking-tight">CharityRoll</span>
+            <span className="text-2xl font-black tracking-tight">Golf Charity</span>
           </motion.div>
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
@@ -234,7 +234,7 @@ const LandingPage = () => {
       </section>
 
       <footer className="py-12 border-t border-neutral-900 text-center text-neutral-600 font-medium">
-        &copy; {new Date().getFullYear()} CharityRoll. All rights reserved. Built for Impact.
+        &copy; {new Date().getFullYear()} Golf Charity. All rights reserved. Built for Impact.
       </footer>
     </div>
   );
