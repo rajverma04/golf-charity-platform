@@ -53,7 +53,7 @@ function App() {
       try {
         const res = await api.get('/auth/profile');
         setUser(res.data.data);
-      } catch (error) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
